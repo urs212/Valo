@@ -8,7 +8,7 @@
 <script>
    (function(){
       // EmailJS 초기화 (User ID)
-      emailjs.init("uKeshnX1xK0Y0h-sq");
+      emailjs.init("PXy5dWLVSSQbQwKCj");
    })();
 
    let currentCode = ""; // 발송한 인증 코드를 저장
@@ -30,7 +30,7 @@
            verification_code: currentCode
        };
 
-       emailjs.send("service_y439lcp","template_zksqn5c");
+       emailjs.send('service_y5ghot8', 'template_4mecpdq', templateParams)
        .then(function(response) {
            console.log('SUCCESS!', response.status, response.text);
            alert("인증 코드가 발송되었습니다.");
