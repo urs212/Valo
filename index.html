@@ -30,8 +30,9 @@
            verification_code: currentCode
        };
 
-       emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams)
-       .then(function(response) {
+       emailjs.send("service_y439lcp","template_zksqn5c",{
+to_email: "limsuno525@naver.com",
+});
            console.log('SUCCESS!', response.status, response.text);
            alert("인증 코드가 발송되었습니다.");
        }, function(error) {
