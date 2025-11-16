@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SMS 인증 예제</title>
+</head>
+<body>
+<h2>전화번호 인증</h2>
+<input type="text" id="phone" placeholder="전화번호 입력">
+<button onclick="sendCode()">인증번호 보내기</button>
+<br><br>
+<input type="text" id="code" placeholder="인증번호 입력">
+<button onclick="checkCode()">확인</button>
+
+<script>
+let realCode = "";
+
+function sendCode() {
+    const phone = document.getElementById("phone").value;
+    if (!phone) {
+        alert("전화번호를 입력해주세요!");
+        return;
+    }
+
+    // 6자리 인증번호 생성
+    realCode = String(Math.floor(100000 + Math.random() * 900000));
+
+    // SMS Gateway 호출
+    fetch("http://211.234.234.35:8080/send", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            to: phone,
+            message: `인증번호: ${realCode}`
+        })
+    })
+    .then(res => res.json())
+    .then(data => alert("인증번호가 발송되었습니다!"))
+    .catch(err => alert("문자 전송 실패! 확인해주세요."));
+}
+
+function checkCode() {
+    const userCode = document.getElementById("code").value;
+    if (userCode === realCode) {
+        alert("인증 성공!");
+    } else {
+        alert("인증 실패!");
+    }
+}
+</script>
+</body>
+</html>
