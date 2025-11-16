@@ -9,7 +9,7 @@
   input { padding: 5px; margin: 5px 0; width: 250px; }
   button { padding: 5px 10px; margin-left: 5px; }
 </style>
-<!-- EmailJS 최신 SDK -->
+<!-- EmailJS 최신 SDK v4 -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
@@ -27,7 +27,7 @@
 </div>
 
 <script>
-  // EmailJS 초기화 (publicKey 사용)
+  // EmailJS 초기화 (공개 키)
   emailjs.init("PXy5dWLVSSQbQwKCj");
 
   let currentCode = "";
@@ -37,7 +37,7 @@
       const email = document.getElementById("email").value.trim();
       if (!email) return alert("이메일을 입력해주세요.");
 
-      // 6자리 랜덤 인증 코드
+      // 6자리 랜덤 인증 코드 생성
       currentCode = Math.floor(100000 + Math.random() * 900000).toString();
 
       const templateParams = {
@@ -46,7 +46,7 @@
       };
 
       try {
-          await emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams);
+          await emailjs.send('service_ifdeiee', 'template_xkche7g', templateParams);
           alert("인증 코드가 발송되었습니다.");
       } catch (err) {
           console.error(err);
