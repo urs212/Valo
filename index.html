@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이메일 인증</title>
+<title>이메일 인증 시스템</title>
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
   input { padding: 5px; margin: 5px 0; width: 250px; }
   button { padding: 5px 10px; margin-left: 5px; }
+  #status { margin-top: 10px; font-weight: bold; }
 </style>
 <!-- EmailJS 최신 SDK v4 -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
-<h2>이메일 인증 시스템</h2>
+<h2>이메일 인증</h2>
 
 <div>
     <input type="email" id="email" placeholder="이메일 입력">
@@ -26,11 +27,15 @@
     <button id="verifyBtn">인증 확인</button>
 </div>
 
+<div id="status"></div>
+
 <script>
-  // EmailJS 초기화 (공개 키)
+  // EmailJS 초기화
   emailjs.init("PXy5dWLVSSQbQwKCj");
 
   let currentCode = "";
+
+  const statusDiv = document.getElementById("status");
 
   // 인증 코드 전송
   document.getElementById("sendBtn").addEventListener("click", async function() {
@@ -47,10 +52,12 @@
 
       try {
           await emailjs.send('service_ifdeiee', 'template_xkche7g', templateParams);
-          alert("인증 코드가 발송되었습니다.");
+          statusDiv.style.color = "green";
+          statusDiv.textContent = `인증 코드가 ${email}로 발송되었습니다.`;
       } catch (err) {
           console.error(err);
-          alert("이메일 전송 실패. 콘솔을 확인해주세요.");
+          statusDiv.style.color = "red";
+          statusDiv.textContent = "이메일 전송 실패. 콘솔 확인";
       }
   });
 
@@ -58,7 +65,14 @@
   document.getElementById("verifyBtn").addEventListener("click", function() {
       const inputCode = document.getElementById("code").value.trim();
       if (!inputCode) return alert("코드를 입력해주세요.");
-      alert(inputCode === currentCode ? "인증 성공!" : "인증 실패");
+
+      if (inputCode === currentCode) {
+          statusDiv.style.color = "green";
+          statusDiv.textContent = "인증 성공!";
+      } else {
+          statusDiv.style.color = "red";
+          statusDiv.textContent = "인증 실패!";
+      }
   });
 </script>
 
