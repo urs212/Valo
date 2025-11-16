@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이메일 인증</title>
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script src="script.js" defer></script>
+<script type="module" src="script.js"></script>
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
-  input { padding: 5px; margin-right: 5px; }
-  button { padding: 5px 10px; }
+  input { padding: 5px; margin: 5px 0; width: 250px; }
+  button { padding: 5px 10px; margin-left: 5px; }
 </style>
 </head>
 <body>
@@ -21,7 +20,7 @@
     <button id="sendBtn">인증 코드 전송</button>
 </div>
 
-<div style="margin-top:10px;">
+<div>
     <input type="text" id="code" placeholder="인증 코드 입력">
     <button id="verifyBtn">인증 확인</button>
 </div>
