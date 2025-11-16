@@ -14,7 +14,7 @@ document.getElementById("sendBtn").addEventListener("click", function() {
         verification_code: currentCode
     };
 
-    emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams, 'uKeshnX1xK0Y0h-sq')
+    emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams, 'PXy5dWLVSSQbQwKCj')
         .then(() => alert("인증 코드가 발송되었습니다."))
         .catch(err => {
             console.log(err);
