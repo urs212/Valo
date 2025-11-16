@@ -5,63 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이메일 인증</title>
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-   (function(){
-      // EmailJS 초기화 (User ID)
-      emailjs.init("PXy5dWLVSSQbQwKCj");
-   })();
-
-   let currentCode = ""; // 발송한 인증 코드를 저장
-
-   // 인증 코드 전송
-   function sendVerificationCode() {
-       const email = document.getElementById("email").value.trim();
-       if(!email) {
-           alert("이메일을 입력해주세요.");
-           return;
-       }
-
-       // 6자리 랜덤 인증 코드 생성
-       currentCode = Math.floor(100000 + Math.random() * 900000).toString();
-
-       // EmailJS 템플릿 파라미터
-       const templateParams = {
-           to_email: email,
-           verification_code: currentCode
-       };
-
-       emailjs.send('service_y5ghot8', 'template_4mecpdq', templateParams)
-       .then(function(response) {
-           console.log('SUCCESS!', response.status, response.text);
-           alert("인증 코드가 발송되었습니다.");
-       }, function(error) {
-           console.log('FAILED...', error);
-           alert("이메일 전송 실패");
-       });
-   }
-
-   // 인증 코드 확인
-   function verifyCode() {
-       const inputCode = document.getElementById("code").value.trim();
-       if(inputCode === currentCode) {
-           alert("인증 성공!");
-       } else {
-           alert("인증 실패. 코드를 확인해주세요.");
-       }
-   }
-</script>
+<script src="script.js" defer></script>
 </head>
 <body style="font-family: Arial, sans-serif; padding: 20px;">
 <h2>이메일 인증 시스템</h2>
 
 <div style="margin-bottom: 10px;">
     <input type="email" id="email" placeholder="이메일 입력" style="padding:5px; width:250px;">
-    <button onclick="sendVerificationCode()" style="padding:5px 10px;">인증 코드 전송</button>
+    <button id="sendBtn" style="padding:5px 10px;">인증 코드 전송</button>
 </div>
 
 <div style="margin-bottom: 10px;">
     <input type="text" id="code" placeholder="인증 코드 입력" style="padding:5px; width:150px;">
-    <button onclick="verifyCode()" style="padding:5px 10px;">인증 확인</button>
+    <button id="verifyBtn" style="padding:5px 10px;">인증 확인</button>
 </div>
 
 </body>
