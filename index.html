@@ -76,13 +76,124 @@ function sendCode() {
     // 6자리 랜덤 인증번호 생성
     realCode = String(Math.floor(100000 + Math.random() * 900000));
 
-    // EmailJS 발송
-    emailjs.send("service_y439lcp", "template_yyy", {
+    // EmailJS 발송 (Service + Template 반영)
+    emailjs.send("service_y439lcp", "template_zksqn5c", {
         to_email: email,
         message: realCode
     })
-    .then(() => alert(`인증번호가 ${email}로 발송되었습니다!\n이 코드를 다른 사람에게 알리지 마세요.`))
-    .catch(err => alert("메일 전송 실패: " + err));
+    .then(response => {
+        // [Object object] 문제 해결
+        alert(`인증번호가 ${email}로 발송되었습니다!\n이 코드를 다른 사람에게 알리지 마세요.\n응답 상태: ${response.status}, 텍스트: ${response.text}`);
+    })
+    .catch(error => {
+        alert("메일 전송 실패:\n" + JSON.stringify(error));
+    });
+}
+
+function checkCode() {
+    const userCode = document.getElementById("code").value.trim();
+    if (!userCode) { alert("인증번호를 입력해주세요!"); return; }
+
+    if (userCode === realCode) {
+        alert("✅ 인증 성공!");
+        realCode = ""; // 한 번 사용 후 초기화
+    } else {
+        alert("❌ 인증 실패! 다시 확인해주세요.");
+    }
+}
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>이메일 인증</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #89f7fe, #66a6ff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+    h2 {
+        color: #fff;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    input {
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        border: none;
+        width: 250px;
+        font-size: 16px;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff7e5f;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover {
+        background-color: #feb47b;
+    }
+    .container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+</style>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+   (function(){
+      emailjs.init("user_zzz"); // ← 여기에 EmailJS Public Key 넣기
+   })();
+</script>
+</head>
+<body>
+
+<div class="container">
+    <h2>이메일 인증</h2>
+    <input type="email" id="email" placeholder="이메일 입력"><br>
+    <button onclick="sendCode()">인증번호 보내기</button><br><br>
+    <input type="text" id="code" placeholder="인증번호 입력"><br>
+    <button onclick="checkCode()">인증 확인</button>
+</div>
+
+<script>
+let realCode = "";
+
+function sendCode() {
+    const email = document.getElementById("email").value.trim();
+    if (!email) { alert("이메일을 입력해주세요!"); return; }
+
+    // 6자리 랜덤 인증번호 생성
+    realCode = String(Math.floor(100000 + Math.random() * 900000));
+
+    // EmailJS 발송 (Service + Template 반영)
+    emailjs.send("service_y439lcp", "template_zksqn5c", {
+        to_email: email,
+        message: realCode
+    })
+    .then(response => {
+        // [Object object] 문제 해결
+        alert(`인증번호가 ${email}로 발송되었습니다!\n이 코드를 다른 사람에게 알리지 마세요.\n응답 상태: ${response.status}, 텍스트: ${response.text}`);
+    })
+    .catch(error => {
+        alert("메일 전송 실패:\n" + JSON.stringify(error));
+    });
 }
 
 function checkCode() {
