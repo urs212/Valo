@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>이메일 인증</title>
-<script type="module" src="script.js"></script>
 <style>
   body { font-family: Arial, sans-serif; padding: 20px; }
   input { padding: 5px; margin: 5px 0; width: 250px; }
   button { padding: 5px 10px; margin-left: 5px; }
 </style>
+<!-- EmailJS 최신 SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -24,6 +25,42 @@
     <input type="text" id="code" placeholder="인증 코드 입력">
     <button id="verifyBtn">인증 확인</button>
 </div>
+
+<script>
+  // EmailJS 초기화 (publicKey 사용)
+  emailjs.init("uKeshnX1xK0Y0h-sq");
+
+  let currentCode = "";
+
+  // 인증 코드 전송
+  document.getElementById("sendBtn").addEventListener("click", async function() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) return alert("이메일을 입력해주세요.");
+
+      // 6자리 랜덤 인증 코드
+      currentCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const templateParams = {
+          to_email: email,
+          verification_code: currentCode
+      };
+
+      try {
+          await emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams);
+          alert("인증 코드가 발송되었습니다.");
+      } catch (err) {
+          console.error(err);
+          alert("이메일 전송 실패. 콘솔을 확인해주세요.");
+      }
+  });
+
+  // 인증 코드 확인
+  document.getElementById("verifyBtn").addEventListener("click", function() {
+      const inputCode = document.getElementById("code").value.trim();
+      if (!inputCode) return alert("코드를 입력해주세요.");
+      alert(inputCode === currentCode ? "인증 성공!" : "인증 실패");
+  });
+</script>
 
 </body>
 </html>
