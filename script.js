@@ -1,5 +1,5 @@
 // EmailJS 초기화
-emailjs.init("uKeshnX1xK0Y0h-sq");
+emailjs.init("PXy5dWLVSSQbQwKCj");
 
 let currentCode = "";
 
