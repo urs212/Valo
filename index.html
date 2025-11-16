@@ -5,46 +5,57 @@
 <title>이메일 인증</title>
 <style>
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
 }
+
+.container {
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
 h2 {
     color: #fff;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 }
+
 input {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
     border: none;
-    width: 250px;
+    width: 280px;
     font-size: 16px;
+    outline: none;
 }
+
 button {
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 12px 25px;
+    margin: 10px;
     border: none;
-    border-radius: 5px;
-    background-color: #ff7e5f;
-    color: white;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-button:hover { background-color: #feb47b; }
-.container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    text-align: center;
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 </style>
 </head>
@@ -53,7 +64,7 @@ button:hover { background-color: #feb47b; }
 <div class="container">
     <h2>이메일 인증</h2>
     <input type="email" id="email" placeholder="이메일 입력"><br>
-    <button onclick="sendCode()">인증번호 보내기</button><br><br>
+    <button onclick="sendCode()">인증번호 보내기</button><br>
     <input type="text" id="code" placeholder="인증번호 입력"><br>
     <button onclick="checkCode()">인증 확인</button>
 </div>
@@ -68,30 +79,41 @@ let realCode = "";
 // 인증번호 발송
 window.sendCode = function() {
     const email = document.getElementById("email").value.trim();
-    if(!email){ alert("이메일을 입력해주세요!"); return; }
+    if (!email) { alert("이메일을 입력해주세요!"); return; }
 
+    // 6자리 랜덤 인증번호 생성
     realCode = String(Math.floor(100000 + Math.random() * 900000));
 
+    // 이메일 본문 안내 문구 포함
+    const emailContent = `
+valasiasundo.kro.kr에서 보낸 인증번호입니다.
+인증번호: ${realCode}
+이 코드를 절대 다른 사람에게 알리지 마세요.
+`;
+
+    // EmailJS 발송
     emailjs.send("service_y439lcp", "template_zksqn5c", {
         to_email: email,
-        message: realCode
+        message: emailContent
     })
     .then(response => {
-        alert(`인증번호가 ${email}로 발송되었습니다!\n이 코드를 다른 사람에게 알리지 마세요.\n응답 상태: ${response.status}, 텍스트: ${response.text}`);
+        console.log("메일 전송 성공:", response);
+        alert(`✅ 인증번호가 ${email}로 발송되었습니다!`);
     })
     .catch(error => {
-        alert("메일 전송 실패:\n" + JSON.stringify(error));
+        console.error("메일 전송 실패:", error);
+        alert("❌ 메일 전송 실패. 콘솔 확인");
     });
 }
 
 // 인증번호 확인
 window.checkCode = function() {
     const userCode = document.getElementById("code").value.trim();
-    if(!userCode){ alert("인증번호를 입력해주세요!"); return; }
+    if (!userCode) { alert("인증번호를 입력해주세요!"); return; }
 
-    if(userCode === realCode){
-        alert("✅ 인증 성공!");
-        realCode = "";
+    if (userCode === realCode) {
+        alert("🎉 인증 성공!");
+        realCode = ""; // 한 번 사용 후 초기화
     } else {
         alert("❌ 인증 실패! 다시 확인해주세요.");
     }
