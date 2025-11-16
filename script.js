@@ -1,6 +1,6 @@
 // EmailJS 초기화
-emailjs.init("PXy5dWLVSSQbQwKCj");
-
+emailjs.init({
+        publicKey: "PXy5dWLVSSQbQwKCj",
 let currentCode = "";
 
 // 인증 코드 전송
