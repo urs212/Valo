@@ -30,9 +30,8 @@
            verification_code: currentCode
        };
 
-       emailjs.send("service_y439lcp","template_zksqn5c",{
-       to_email: "response",
-       });
+       emailjs.send('service_y439lcp', 'template_zksqn5c', templateParams)
+       .then(function(response) {
            console.log('SUCCESS!', response.status, response.text);
            alert("인증 코드가 발송되었습니다.");
        }, function(error) {
